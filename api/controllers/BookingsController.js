@@ -100,12 +100,36 @@ module.exports = {
         .then(() => { 
           res.send(200, { success: 'User created' });
           let secs = this.secondsRemaining();
-          axios.get('http://aurora.burrow.io/setTimer?time=' + secs)
+          sails.axios.get('http://aurora.burrow.io/setTimer?time=' + secs)
             .catch(err => sails.log('axios error: ' + err));
         })
         .err(err => res.send(400, { error: err }));
     }
   },
 
+  removeBooking: async (req, res) => {
+    if (req.body.idRoom === undefined) {
+      sails.log('idRoom was undefined in removeBooking');
+      return;
+    }
+    let room = Rooms.findOne({ id: req.body.idRoom });
+    if (room === undefined) {
+      sails.log('idRoom does not match an exisiting room');
+      return;
+    }
+    if (room.inUse === true) {
+      // Drop the booking in the database
+      let currentTimeslot = await Timeslots.findOne({
+        time: this.getStartingTime(),
+        room: req.body.idRoom
+      });
+      if (currentTimeslot === undefined) {
+        sails.log('Error retrieving the timeslot in BookingsController.removeBooking');
+        return;
+      }
+      Bookings.destroy({ timeslot: currentTimeslot.id });
+      sails.axios.get('http://aurora.burrow.io/red').catch(err => sails.log('axios error: ' + err));
+    }
+  }
 };
 
