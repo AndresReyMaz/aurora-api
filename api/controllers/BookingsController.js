@@ -47,6 +47,15 @@ module.exports = {
     }
   },
 
+  secondsRemaining: async function() {
+    let time = Date.now();
+    if (time.getMinutes() < 30) {
+      return (60 - time.getSeconds()) + 60 * (30 - time.getMinutes());
+    } else {
+      return (60 - time.getSeconds()) + 60 * (60 - time.getMinutes());
+    }
+  },
+
   checkCardOutside: async function(req, res) {
     if (req.body.idRoom === undefined || req.body.idCard === undefined) {
       // POST variables not present
@@ -88,7 +97,12 @@ module.exports = {
     } else {
       // Current room is empty. Create a booking for half an hour
       Bookings.create({ enduser: req.body.idCard, timeslot: currentTimeslot.id })
-        .then(() => res.send(200, { success: 'User created' }))
+        .then(() => { 
+          res.send(200, { success: 'User created' });
+          let secs = this.secondsRemaining();
+          axios.get('http://aurora.burrow.io/setTimer?time=' + secs)
+            .catch(err => sails.log('axios error: ' + err));
+        })
         .err(err => res.send(400, { error: err }));
     }
   },
