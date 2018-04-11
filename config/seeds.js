@@ -54,22 +54,22 @@ module.exports.seeds = {
   ],
   timeslots: [
     {
-      time: 1522984242,
-      day: 1522984242,
+      time: '1522984242',
+      day: '1523050830826',
       booked: false,
       weeksUntil: 2,
       room: 2,
     },
     {
-      time: 1522994242,
-      day: 1522994242,
+      time: '1523050830826',
+      day: '1523050830826',
       booked: false,
       weeksUntil: 3,
       room: 3,
     },
     {
-      time: 1522994333,
-      day: 1522994333,
+      time: '1522994333',
+      day: '1523050830826',
       booked: false,
       weeksUntil: 3,
       room: 3,

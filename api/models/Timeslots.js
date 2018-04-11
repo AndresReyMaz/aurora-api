@@ -13,13 +13,15 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
     time: {
-      type: 'number'
+      type: 'string',
+      columnType: 'bigint'
     },
     day: {
-      type: 'number'
+      type: 'string',
+      columnType: 'bigint'
     },
     booked: {
-      type: 'boolean',
+      type: 'string',
     },
     weeksUntil: {
       type: 'number',
