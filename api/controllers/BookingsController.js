@@ -19,7 +19,7 @@ module.exports = {
 
   create: async function(req, res) {
     // First: check that a user with the given id exists
-    var record = await Endusers.findOne({ id: req.body.enduser });
+    let record = await Endusers.findOne({ id: req.body.enduser });
     if (record === undefined) {
       sails.log('Record was undefined');
     } else {
@@ -33,6 +33,63 @@ module.exports = {
           res.ok();
         }
       });
+    }
+  },
+
+  // Using current time, returns the time in miliseconds of the beginning of the half hour
+  getStartingTime: async function() {
+    let time = Date.now();
+    sails.log('The current time is:' + time);
+    if (time.getMinutes() < 30) {
+      return time.setMinutes(0);
+    } else {
+      return time.setMinutes(30);
+    }
+  },
+
+  checkCardOutside: async function(req, res) {
+    if (req.body.idRoom === undefined || req.body.idCard === undefined) {
+      // POST variables not present
+      res.send(400, { error: 'one or more parameters missing' } );
+      return;
+    }
+    let currentUser = await Endusers.findOne({ rfid: req.body.idCard });
+    if (currentUser === undefined) {
+      sails.log('Error: no user found with that rfid.');
+      return;
+    }
+    // Check current status of room
+    let record = await Rooms.findOne({ id: req.body.idRoom });
+    if (record === undefined) {
+      res.send(400, { error: 'idRoom does not exist' });
+      return;
+    }
+    // Get current timeslot, will be used in both cases.
+    let currentTimeslot = await Timeslots.findOne({
+      time: this.getStartingTime(),
+      room: req.body.idRoom
+    });
+    if (currentTimeslot === undefined) {
+      sails.log('Error retrieving the timeslot in BookingsController.checkCardOutside');
+      return;
+    }
+    if (record.inUse === true) {
+      // Check that the room's current booking belongs to the person that holds req.body.idCard
+      let currentBooking = await Bookings.findOne({ timeslot: currentTimeslot.id }).populate('enduser');
+      if (currentBooking === undefined) {
+        sails.log('Error with retrieving the currentBooking');
+        return;
+      }
+      if (currentBooking.enduser.rfid !== req.body.idCard) {
+        res.send(200, { response: 'false' });
+      } else {
+        res.send(200, { response: 'true' });
+      }
+    } else {
+      // Current room is empty. Create a booking for half an hour
+      Bookings.create({ enduser: req.body.idCard, timeslot: currentTimeslot.id })
+        .then(() => res.send(200, { success: 'User created' }))
+        .err(err => res.send(400, { error: err }));
     }
   },
 
