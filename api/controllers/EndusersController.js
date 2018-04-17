@@ -70,7 +70,8 @@ module.exports = {
         }
       }
     })[0];
-    return res.json(latestBooking.timeslot);
+    console.log(latestBooking.timeslot.id);
+    return res.json(await Timeslots.findOne({ id: latestBooking.timeslot.id }).populate('room'));
   }
 
 };
