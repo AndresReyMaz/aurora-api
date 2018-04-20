@@ -14,16 +14,19 @@ module.exports = {
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
     time: {
       type: 'string',
-      columnType: 'bigint'
+      columnType: 'bigint',
     },
     day: {
       type: 'string',
-      columnType: 'bigint'
+      columnType: 'bigint',
     },
     booked: {
       type: 'string',
     },
     weeksUntil: {
+      type: 'number',
+    },
+    dayOfWeek: {
       type: 'number',
     },
 
