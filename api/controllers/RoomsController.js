@@ -16,6 +16,12 @@ module.exports = {
     });
   },
 
+  singleRoom: function(req, res) {
+    Rooms.findOne({ id: req.params.id }).populate('timeslots', {limit: 1000})
+      .then((data) => res.status(200).json(data))
+      .catch(err => res.send(400, { err: err } ));
+  },
+
   create: (req, res) => {
     Rooms.create( {
       alias: req.body.alias,

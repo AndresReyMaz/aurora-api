@@ -31,7 +31,8 @@ module.exports.routes = {
   'get /endusers/:enduserid/latestbooking': 'EndusersController.getLatestBooking',
   'get /bookings/list': 'BookingsController.list',
   'post /card': 'BookingsController.checkCardOutside',
-  'post /rm': 'BookingsController.removeBooking'
+  'post /rm': 'BookingsController.removeBooking',
+  'get /room/:id': 'RoomsController.singleRoom'
 
   /***************************************************************************
   *                                                                          *

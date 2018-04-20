@@ -32,6 +32,8 @@ module.exports = {
     });
   },
 
+
+
   getLatestBooking: async (req, res) => {
     //let bookings = await Endusers.findOne({ id: req.body.id });
     sails.log(req.params.enduserid);
