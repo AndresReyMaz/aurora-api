@@ -10,7 +10,7 @@ module.exports = {
   attributes: {
 
     alias: {
-      type: 'string'
+      type: 'number'
     },
     active: {
       type: 'boolean'

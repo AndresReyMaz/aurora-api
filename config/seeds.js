@@ -18,8 +18,8 @@ module.exports.seeds = {
       password: 'asdfasdf'
     },
     {
-      firstName: 'Julián Huerta',
-      lastName: '😂😂😂',
+      firstName: 'Julián',
+      lastName: 'Huerta',
       email: 'nosep@facebook.com',
       hoursRemaining: 30,
       rfid: '1313',
@@ -28,7 +28,7 @@ module.exports.seeds = {
   ],
   rooms: [
     {
-      alias: 'Sala 9',
+      alias: 9,
       capacity: 10,
       active: true,
       imageUrl: 'animage',
@@ -36,7 +36,7 @@ module.exports.seeds = {
       location: 'Biblioteca Norte'
     },
     {
-      alias: 'Sala 10',
+      alias: 10,
       capacity: 8,
       active: true,
       imageUrl: 'otherimage',
@@ -44,7 +44,7 @@ module.exports.seeds = {
       location: 'Biblioteca Sur'
     },
     {
-      alias: 'Sala 8',
+      alias: 8,
       capacity: 10,
       active: true,
       imageUrl: 'room.png',
