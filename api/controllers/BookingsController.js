@@ -75,7 +75,7 @@ module.exports = {
     }
     // Get current timeslot, will be used in both cases.
     let currentTimeslot = await Timeslots.findOne({
-      time: this.getStartingTime(),
+      time: await sails.helpers.getStartingTime(),
       room: req.body.idRoom
     });
     if (currentTimeslot === undefined) {
@@ -96,10 +96,10 @@ module.exports = {
       }
     } else {
       // Current room is empty. Create a booking for half an hour
+      let secs = await sails.helpers.getRemainingSeconds();
       Bookings.create({ enduser: req.body.idCard, timeslot: currentTimeslot.id })
         .then(() => { 
           res.send(200, { success: 'User created' });
-          let secs = this.secondsRemaining();
           sails.axios.get('http://aurora.burrow.io/setTimer?time=' + secs)
             .catch(err => sails.log('axios error: ' + err));
         })
