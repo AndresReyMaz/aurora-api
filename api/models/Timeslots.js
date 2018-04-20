@@ -23,10 +23,8 @@ module.exports = {
     booked: {
       type: 'string',
     },
-    weeksUntil: {
-      type: 'number',
-    },
-    dayOfWeek: {
+    // No. of business days until the date
+    daysUntil: {
       type: 'number',
     },
 
