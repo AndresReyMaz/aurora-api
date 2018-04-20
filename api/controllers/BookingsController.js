@@ -74,8 +74,10 @@ module.exports = {
       return;
     }
     // Get current timeslot, will be used in both cases.
+    let time1 = await sails.helpers.getStartingTime();
+    sails.log(time1);
     let currentTimeslot = await Timeslots.findOne({
-      time: await sails.helpers.getStartingTime(),
+      time: time1,
       room: req.body.idRoom
     });
     if (currentTimeslot === undefined) {
