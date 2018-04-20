@@ -24,7 +24,7 @@ module.exports = {
   fn: async function (inputs, exits) {
 
     // Get starting time.
-    let time = Date.now();
+    let time = new Date();
     sails.log('The current time is:' + time);
     if (time.getMinutes() < 30) {
       time.setMinutes(0);

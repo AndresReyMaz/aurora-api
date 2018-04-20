@@ -25,7 +25,7 @@ module.exports = {
   fn: async function (inputs, exits) {
 
     // Get remaining seconds.
-    let time = Date.now();
+    let time = new Date();
     let remainingSeconds = 0;
     if (time.getMinutes() < 30) {
       remainingSeconds = (60 - time.getSeconds()) + 60 * (30 - time.getMinutes());
