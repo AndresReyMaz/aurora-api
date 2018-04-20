@@ -31,6 +31,8 @@ module.exports = {
     } else {
       time.setMinutes(30);
     }
+    time.setSeconds(0);
+    time.setMilliseconds(0);
     sails.log('Returning time: ' + time);
     // Send back the result through the success exit.
     return exits.success(time);

@@ -78,7 +78,7 @@ module.exports = {
     sails.log("THIS ARE THE MILIS");
     sails.log(time1.getMilliseconds());
     let currentTimeslot = await Timeslots.findOne({
-      time: time1,
+      time: Date.parse(time1),
       room: req.body.idRoom
     });
     if (currentTimeslot === undefined) {
