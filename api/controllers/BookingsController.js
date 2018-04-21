@@ -49,6 +49,7 @@ module.exports = {
       return res.send(400, { err: 'At least one of the chosen timeslots is already booked'} );
     }
     timeslotArray.forEach(timeslot => {
+      // Create my bookings
       Bookings.create({
         enduser: req.body.enduser,
         timeslot: timeslot.id
@@ -56,8 +57,18 @@ module.exports = {
         sails.log('There was an error creating the bookings');
         res.send(400, {err:err});
       });
+      
     });
-    res.send(200);
+    // Convert the timeslots' booked to true
+    Timeslots.update({
+      time: { '>=': req.body.startTime, '<': req.body.endTime },
+      room: req.body.room
+    }).set( { booked: true } )
+    .then(() => {res.send(200);}).catch(err => {
+      sails.log('There was an error updating the timeslots'); 
+      res.send(400, {err:err});
+    });
+    
   },
 
   checkCardOutside: async function(req, res) {
