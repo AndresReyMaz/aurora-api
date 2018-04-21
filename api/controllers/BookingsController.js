@@ -48,18 +48,14 @@ module.exports = {
     if (filteredArray.length > 0) {
       return res.send(400, { err: 'At least one of the chosen timeslots is already booked'} );
     }
-
-    // Create
-    Bookings.create({
-      enduser: req.body.enduser,
-      room: req.body.room
-    }, (err) => {
-      if (err) {
-        res.send(400, { err: err } );
-      } else {
-        res.ok();
+    timeslotArray.forEach(timeslot => {
+      Bookings.create({
+        enduser: req.body.enduser,
+        timeslot: timeslot
       }
-    });
+      );
+    }).then(() => res.ok())
+    .catch(err => res.send(400, {err: err});
   },
 
   checkCardOutside: async function(req, res) {
