@@ -51,8 +51,9 @@ module.exports = {
     timeslotArray.forEach(timeslot => {
       Bookings.create({
         enduser: req.body.enduser,
-        timeslot: timeslot
+        timeslot: timeslot.id
       }).then(() => {}).catch(err => {
+        sails.log('There was an error creating the bookings');
         res.send(400, {err:err});
       });
     });
