@@ -18,13 +18,13 @@ module.exports = {
 
   create: async function(req, res) {
     // First: check that a user with the given id exists
-    let enduser = await Endusers.findOne({ id: req.body.enduser });
+    let enduser = await Endusers.find({ id: req.body.enduser }).limit(1);
     if (enduser === undefined) {
       sails.log('Record was undefined');
       return res.send(400, { err: 'No user with that id exists'} );
     }
     // Check that a room with the given id exists
-    let room = await Rooms.findOne({ id: req.body.room });
+    let room = await Rooms.find( { id: req.body.room } ).limit(1);
     if (room === undefined) {
       sails.log('Room was undefined');
       return res.send(400, { err: 'No room with that id exists'} );
@@ -76,7 +76,6 @@ module.exports = {
       sails.log('There was an error updating the timeslots'); 
       res.send(400, {err:err});
     });
-    
   },
 
   checkCardOutside: async function(req, res) {
