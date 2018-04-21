@@ -73,7 +73,7 @@ module.exports = {
       time: { '>=': req.body.startTime, '<': req.body.endTime },
       room: req.body.room
     }).set( { booked: true } )
-    .then(() => {res.send(200);}).catch(err => {
+    .then(() => {res.send(200, { status: 200 });}).catch(err => {
       sails.log('There was an error updating the timeslots');
       return res.send(400, {err:err});
     });
