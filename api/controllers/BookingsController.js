@@ -55,10 +55,11 @@ module.exports = {
         timeslot: timeslot.id
       }).then(() => {}).catch(err => {
         sails.log('There was an error creating the bookings');
-        res.send(400, {err:err});
+        return res.send(400, {err:err});
       });
     });
-
+    sails.log(enduser.remainingHours);
+    sails.log(timeslotArray.length);
     // Update the user's remainingHours
     Endusers.update({
       enduser: enduser.id
@@ -73,7 +74,7 @@ module.exports = {
       room: req.body.room
     }).set( { booked: true } )
     .then(() => {res.send(200);}).catch(err => {
-      sails.log('There was an error updating the timeslots'); 
+      sails.log('There was an error updating the timeslots');
       res.send(400, {err:err});
     });
   },
