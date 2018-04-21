@@ -164,7 +164,7 @@ module.exports = {
       return res.status(400).send({ err: 'Error in id '});
     }
     Bookings.destroy({ id: req.params.id })
-      .then(() => res.status(200).send( {status: success}))
+      .then(() => res.status(200).send( {status: 'success'}))
       .then(err => res.status(404).send( { err: err }));
   }
 };
