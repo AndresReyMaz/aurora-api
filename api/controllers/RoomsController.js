@@ -17,7 +17,7 @@ module.exports = {
   },
 
   singleRoom: function(req, res) {
-    Rooms.findOne({ id: req.params.id }).populate('timeslots', {limit: 1000})
+    Rooms.findOne({ id: req.params.id }).populate('timeslots', {limit: 1000, sort: 'time ASC'})
       .then((data) => res.status(200).json(data))
       .catch(err => res.send(400, { err: err } ));
   },
