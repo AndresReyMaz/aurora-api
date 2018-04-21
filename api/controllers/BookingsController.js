@@ -156,6 +156,16 @@ module.exports = {
       sails.axios.get('http://aurora.burrow.io/red').catch(err => sails.log('axios error: ' + err));
     }
     res.send(200);
+  },
+
+  // DELETE method
+  delete: async (req, res) => {
+    if (!req.params.id) {
+      return res.status(400).send({ err: 'Error in id '});
+    }
+    Bookings.destroy({ id: req.params.id })
+      .then(() => res.status(200).send( {status: success}))
+      .then(err => res.status(404).send( { err: err }));
   }
 };
 

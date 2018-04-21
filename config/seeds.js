@@ -15,7 +15,7 @@ module.exports.seeds = {
       email: 'blurdischarger@hotmail.com',
       remainingHours: 6,
       rfid: '13131',
-      password: 'asdfasdf'
+      password: '$2a$10$1Hd9VMmtZdH40WaRuJrb0eY9FynlA3wWGl2VN1pZO7mArVLs92LTO'
     },
     {
       firstName: 'Julián',

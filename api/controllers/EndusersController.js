@@ -74,7 +74,41 @@ module.exports = {
     })[0];
     console.log(latestBooking.timeslot.id);
     return res.json(await Timeslots.findOne({ id: latestBooking.timeslot.id }).populate('room'));
-  }
+  },
+
+  login: async (req, res) => {
+    if (!req.body.email || !req.body.password) {
+      return res.status(400).send( { err: 'El usuario o contraseña están vacíos'} );
+    }
+    let email = req.body.email;
+    sails.log(req.body);
+    let password = req.body.password;
+
+    let enduser = await Endusers.findOne( { email: req.body.email } );
+
+    if (enduser === undefined) {
+      return res.status(400).send( {err : 'Usuario no encontrado '} );
+    }
+
+    sails.bcrypt.compare(password, enduser.password, (err, check) => {
+      if (check) {
+        let data = sails.jwt.encode({
+          id: enduser.id,
+          iat: sails.moment().unix(),
+          exp: sails.moment().add(600, 'second').unix
+        },
+        sails.config.session.secret );
+        res.status(200).send({
+          token: data,
+          enduser: enduser.id,
+          expirationTime: 600
+        });
+      } else {
+        res.status(400).send({ err: 'Contraseña incorrecta. ' + err });
+      }
+    });
+
+  },
 
 };
 

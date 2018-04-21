@@ -30,10 +30,12 @@ module.exports.routes = {
   'get /rooms': 'RoomsController.list',
   'get /endusers/:enduserid/latestbooking': 'EndusersController.getLatestBooking',
   'get /bookings/list': 'BookingsController.list',
+  'delete /bookings/:id': 'BookingsController.delete',
   'post /card': 'BookingsController.checkCardOutside',
   'post /rm': 'BookingsController.removeBooking',
   'get /rooms/:id': 'RoomsController.singleRoom',
-  'post /bookings': 'BookingsController.create'
+  'post /bookings': 'BookingsController.create',
+  'post /login': 'EndusersController.login',
 
   /***************************************************************************
   *                                                                          *

@@ -27,6 +27,9 @@ module.exports.bootstrap = async function(done) {
   // ]);
   // ```
   sails.axios = require('axios');
+  sails.bcrypt = require('bcrypt-nodejs');
+  sails.moment = require('moment');
+  sails.jwt = require('jwt-simple');
   // Don't forget to trigger `done()` when this bootstrap function's logic is finished.
   // (otherwise your server will never lift, since it's waiting on the bootstrap)
   return done();
