@@ -53,9 +53,11 @@ module.exports = {
         enduser: req.body.enduser,
         timeslot: timeslot
       }
-      );
-    }).then(() => res.ok())
-    .catch(err => res.send(400, {err: err}));
+      ).catch(err => {
+        return res.send(400, { err: err });
+      });
+    });
+    res.send(200);
   },
 
   checkCardOutside: async function(req, res) {
