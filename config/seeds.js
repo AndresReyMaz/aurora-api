@@ -13,7 +13,7 @@ module.exports.seeds = {
       firstName: 'Jorge',
       lastName: 'Beauregard',
       email: 'blurdischarger@hotmail.com',
-      hoursRemaining: 6,
+      remainingHours: 6,
       rfid: '13131',
       password: 'asdfasdf'
     },
@@ -21,7 +21,7 @@ module.exports.seeds = {
       firstName: 'Julián',
       lastName: 'Huerta',
       email: 'nosep@facebook.com',
-      hoursRemaining: 6,
+      remainingHours: 6,
       rfid: '1313',
       password: 'gato'
     }
