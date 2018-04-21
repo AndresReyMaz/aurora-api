@@ -55,7 +55,7 @@ module.exports = {
       }
       );
     }).then(() => res.ok())
-    .catch(err => res.send(400, {err: err});
+    .catch(err => res.send(400, {err: err}));
   },
 
   checkCardOutside: async function(req, res) {
