@@ -965,17 +965,5 @@ module.exports.seeds = {
     },
   ],
   bookings: [
-    {
-      enduser: 2,
-      timeslot: 1
-    },
-    {
-      enduser: 1,
-      timeslot: 2
-    },
-    {
-      enduser: 2,
-      timeslot: 3
-    }
   ]
 };
