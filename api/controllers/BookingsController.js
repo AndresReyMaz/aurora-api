@@ -52,9 +52,8 @@ module.exports = {
       Bookings.create({
         enduser: req.body.enduser,
         timeslot: timeslot
-      }
-      ).catch(err => {
-        return res.send(400, { err: err });
+      }).then(() => {}).catch(err => {
+        res.send(400, {err:err});
       });
     });
     res.send(200);
