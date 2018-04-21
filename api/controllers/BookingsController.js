@@ -63,7 +63,7 @@ module.exports = {
     Endusers.update({
       enduser: enduser.id
     })
-      .set( { remainingHours: parseInt(enduser.remainingHours) - timeslotArray.length })
+      .set( { remainingHours: (parseInt(enduser.remainingHours) - parseInt(timeslotArray.length)) })
       .then(() => {})
       .catch(err => res.send(400, {err:err}));
 
