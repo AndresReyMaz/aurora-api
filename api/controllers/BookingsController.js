@@ -18,13 +18,13 @@ module.exports = {
 
   create: async function(req, res) {
     // First: check that a user with the given id exists
-    let enduser = await Endusers.find({ id: req.body.enduser }).limit(1);
+    let enduser = await Endusers.findOne({ id: req.body.enduser });
     if (enduser === undefined) {
       sails.log('Record was undefined');
       return res.send(400, { err: 'No user with that id exists'} );
     }
     // Check that a room with the given id exists
-    let room = await Rooms.find( { id: req.body.room } ).limit(1);
+    let room = await Rooms.findOne( { id: req.body.room } );
     if (room === undefined) {
       sails.log('Room was undefined');
       return res.send(400, { err: 'No room with that id exists'} );
