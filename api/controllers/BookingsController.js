@@ -57,8 +57,16 @@ module.exports = {
         sails.log('There was an error creating the bookings');
         res.send(400, {err:err});
       });
-      
     });
+
+    // Update the user's remainingHours
+    Endusers.update({
+      enduser: enduser.id
+    })
+      .set( { remainingHours: enduser.remainingHours - timeslotArray.length })
+      .then(() => {})
+      .catch(err => res.send(400, {err:err}));
+
     // Convert the timeslots' booked to true
     Timeslots.update({
       time: { '>=': req.body.startTime, '<': req.body.endTime },
