@@ -35,7 +35,7 @@ module.exports = {
       sails.log('Only ' + (enduser.remainingHours * 30 * 60 * 1000) + ' remaining milis');
       return res.send(400, { err: 'User does not have enough remaining hours' } );
     }
-    if (timeDiff < 30 * 1000) {
+    if (timeDiff < 30 * 60 * 1000) {
       return res.send(400, { err: 'Less than one timeslot was selected'} );
     }
 
