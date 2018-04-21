@@ -31,8 +31,8 @@ module.exports = {
     }
     // Get total time between the two times
     let timeDiff = (parseInt(req.body.endTime) - parseInt(req.body.startTime));
-    if (timeDiff > enduser.remainingHours * 30 * 1000) {
-      sails.log('Only ' + (enduser.remainingHours * 30 * 1000) + ' remaining milis');
+    if (timeDiff > enduser.remainingHours * 30 * 60 * 1000) {
+      sails.log('Only ' + (enduser.remainingHours * 30 * 60 * 1000) + ' remaining milis');
       return res.send(400, { err: 'User does not have enough remaining hours' } );
     }
     if (timeDiff < 30 * 1000) {
