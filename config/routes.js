@@ -32,7 +32,8 @@ module.exports.routes = {
   'get /bookings/list': 'BookingsController.list',
   'post /card': 'BookingsController.checkCardOutside',
   'post /rm': 'BookingsController.removeBooking',
-  'get /rooms/:id': 'RoomsController.singleRoom'
+  'get /rooms/:id': 'RoomsController.singleRoom',
+  'post /bookings': 'BookingsController.create'
 
   /***************************************************************************
   *                                                                          *

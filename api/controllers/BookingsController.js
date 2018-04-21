@@ -18,14 +18,41 @@ module.exports = {
 
   create: async function(req, res) {
     // First: check that a user with the given id exists
-    let record = await Endusers.findOne({ id: req.body.enduser });
-    if (record === undefined) {
+    let enduser = await Endusers.findOne({ id: req.body.enduser });
+    if (enduser === undefined) {
       sails.log('Record was undefined');
       return res.send(400, { err: 'No user with that id exists'} );
     }
-    sails.log(record.enduser);
+    // Check that a room with the given id exists
+    let room = await Rooms.findOne({ id: req.body.room });
+    if (room === undefined) {
+      sails.log('Room was undefined');
+      return res.send(400, { err: 'No room with that id exists'} );
+    }
+    // Get total time between the two times
+    let timeDiff = (parseInt(req.body.endTime) - parseInt(req.body.startTime));
+    if (timeDiff > enduser.remainingHours * 30 * 1000) {
+      sails.log('Only ' + (enduser.remainingHours * 30 * 1000) + ' remaining milis');
+      return res.send(400, { err: 'User does not have enough remaining hours' } );
+    }
+    if (timeDiff < 30 * 1000) {
+      return res.send(400, { err: 'Less than one timeslot was selected'} );
+    }
+
+    // Check that none of the timeslots in question are booked
+    let timeslotArray = await Timeslots.find({
+      time: { '>=': req.body.startTime, '<': req.body.endTime },
+      room: req.body.room
+    });
+    let filteredArray = await timeslotArray.filter(item => item.booked === true);
+    if (filteredArray.length > 0) {
+      return res.send(400, { err: 'At least one of the chosen timeslots is already booked'} );
+    }
+
+    // Create
     Bookings.create({
-      enduser: req.body.enduser
+      enduser: req.body.enduser,
+      room: req.body.room
     }, (err) => {
       if (err) {
         res.send(400, { err: err } );
