@@ -128,7 +128,7 @@ module.exports = {
           sails.axios.get('http://aurora.burrow.io/setTimer?time=' + secs)
             .catch(err => sails.log('axios error: ' + err));
         })
-        .err(err => res.send(400, { error: err }));
+        .catch(err => res.send(400, { error: err }));
     }
   },
 
@@ -163,9 +163,15 @@ module.exports = {
     if (!req.params.id) {
       return res.status(400).send({ err: 'Error in id '});
     }
-    Bookings.destroy({ id: req.params.id })
-      .then(() => res.status(200).send( {status: 'success'}))
+    // Return hours to the enduser
+    await Bookings.destroy({ id: req.params.id })
+      .then(() => {
+        let enduser = await Endusers.find({ id: req.params.enduser });
+
+        res.status(200).send( {status: 'success'});
+      })
       .catch(err => res.status(404).send( { err: err }));
+    await 
   }
 };
 
