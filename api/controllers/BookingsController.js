@@ -132,14 +132,17 @@ module.exports = {
     }
   },
 
+  // Delivered when user doesn't place id card in slot within 10 secs
   removeBooking: async (req, res) => {
     if (req.body.idRoom === undefined) {
       sails.log('idRoom was undefined in removeBooking');
+      res.send(400, {err: 'No idRoom parameter was set'});
       return;
     }
-    let room = Rooms.findOne({ id: req.body.idRoom });
+    let room = await Rooms.findOne({ id: req.body.idRoom });
     if (room === undefined) {
       sails.log('idRoom does not match an exisiting room');
+      res.send(400, {err: 'No room with that id was found'});
       return;
     }
     if (room.inUse === true) {
@@ -150,12 +153,13 @@ module.exports = {
       });
       if (currentTimeslot === undefined) {
         sails.log('Error retrieving the timeslot in BookingsController.removeBooking');
+        res.send(400, {err: 'Error retrieving the timeslot'});
         return;
       }
       Bookings.destroy({ timeslot: currentTimeslot.id });
       sails.axios.get('http://aurora.burrow.io/red').catch(err => sails.log('axios error: ' + err));
     }
-    res.send(200);
+    res.send(200, { response: 'ok' });
   },
 
   // DELETE method
