@@ -157,7 +157,7 @@ module.exports = {
       res.send(400, {err: 'Error retrieving the timeslot'});
       return;
     }
-    if (currentTimeslot.booked === true) {
+    if (currentTimeslot.booked === 'true') {
       // Drop the booking in the database
       await Timeslots.update({ id: currentTimeslot }).set({ booked: 'false' }).then(() => {}).catch(err => res.send(400, {err: err}));
       await Bookings.destroy({ timeslot: currentTimeslot.id }).then(() => res.send(200, { response: 'ok'} )).catch(err => res.send(400, {err:err}));
