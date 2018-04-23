@@ -124,7 +124,7 @@ module.exports = {
       let secs = await sails.helpers.getRemainingSeconds();
       Bookings.create({ enduser: currentUser.id, timeslot: currentTimeslot.id })
         .then(() => {
-          res.send(200, { success: 'User created' });
+          res.send(200, { response: true });
           sails.axios.get('http://aurora.burrow.io/setTimer?time=' + secs)
             .catch(err => sails.log('axios error: ' + err));
         })
