@@ -146,8 +146,10 @@ module.exports = {
       res.send(400, {err: 'No room with that id was found'});
       return;
     }
+    let time1 = await sails.helpers.getStartingTime();
+    sails.log(Date.parse(time1));
     let currentTimeslot = await Timeslots.findOne({
-      time: Date.parse(sails.helpers.getStartingTime()),
+      time: Date.parse(time1),
       room: req.body.idRoom
     });
     if (currentTimeslot === undefined) {
