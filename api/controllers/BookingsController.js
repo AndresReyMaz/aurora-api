@@ -88,7 +88,7 @@ module.exports = {
     let currentUser = await Endusers.findOne({ rfid: req.body.idCard });
     if (currentUser === undefined) {
       sails.log('Error: no user found with that rfid.');
-      res.send(400, { response: false });
+      res.send(200, { response: false });
       return;
     }
     // Check current status of room
