@@ -105,9 +105,10 @@ module.exports = {
     });
     if (currentTimeslot === undefined) {
       sails.log('Error retrieving the timeslot in BookingsController.checkCardOutside');
+      res.send(400, { error: 'No timeslot found'} );
       return;
     }
-    if (record.inUse === true) {
+    if (currentTimeslot.booked === 'true') {
       // Check that the room's current booking belongs to the person that holds req.body.idCard
       let currentBooking = await Bookings.findOne({ timeslot: currentTimeslot.id }).populate('enduser');
       if (currentBooking === undefined) {
@@ -115,9 +116,9 @@ module.exports = {
         return;
       }
       if (currentBooking.enduser.rfid !== req.body.idCard) {
-        res.send(200, { response: 'false' });
+        res.send(200, { response: false });
       } else {
-        res.send(200, { response: 'true' });
+        res.send(200, { response: true });
       }
     } else {
       // Current room is empty. Create a booking for half an hour
