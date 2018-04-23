@@ -74,7 +74,7 @@ module.exports = {
     })[0];
     console.log(latestBooking.timeslot.id);
     let toSend = await Timeslots.findOne({ id: latestBooking.timeslot.id }).populate('room');
-    toSend.idTimeslot = latestBooking.timeslot.id;
+    toSend.idTimeslot = latestBooking.id;
     return res.json(toSend);
   },
 
