@@ -147,7 +147,7 @@ module.exports = {
       return;
     }
     let currentTimeslot = await Timeslots.findOne({
-      time: sails.helpers.getStartingTime(),
+      time: Date.parse(sails.helpers.getStartingTime()),
       room: req.body.idRoom
     });
     if (currentTimeslot === undefined) {
