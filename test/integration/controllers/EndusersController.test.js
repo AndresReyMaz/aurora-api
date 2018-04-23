@@ -8,4 +8,12 @@ describe('EndusersController.list', () => {
         .expect(200, done);
     });
   });
+  describe('GetOne', () => {
+    it('should return the details of one enduser', (done) => {
+      supertest(sails.hooks.http.app)
+        .get('/endusers')
+        .expect(200)
+        .expect(body);
+    });
+  });
 });
