@@ -122,7 +122,7 @@ module.exports = {
     } else {
       // Current room is empty. Create a booking for half an hour
       let secs = await sails.helpers.getRemainingSeconds();
-      Bookings.create({ enduser: req.body.idCard, timeslot: currentTimeslot.id })
+      Bookings.create({ enduser: currentUser.id, timeslot: currentTimeslot.id })
         .then(() => {
           res.send(200, { success: 'User created' });
           sails.axios.get('http://aurora.burrow.io/setTimer?time=' + secs)
