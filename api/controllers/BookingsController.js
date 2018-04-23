@@ -159,7 +159,7 @@ module.exports = {
     }
     if (currentTimeslot.booked === 'true') {
       // Drop the booking in the database
-      await Timeslots.update({ id: currentTimeslot }).set({ booked: 'false' }).then(() => {}).catch(err => res.send(400, {err: err}));
+      await Timeslots.update({ id: currentTimeslot.id }).set({ booked: 'false' }).then(() => {}).catch(err => res.send(400, {err: err}));
       await Bookings.destroy({ timeslot: currentTimeslot.id }).then(() => res.send(200, { response: 'ok'} )).catch(err => res.send(400, {err:err}));
       sails.axios.get('http://aurora.burrow.io/red').catch(err => sails.log('axios error: ' + err));
     } else {
