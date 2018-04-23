@@ -146,21 +146,23 @@ module.exports = {
       res.send(400, {err: 'No room with that id was found'});
       return;
     }
-    if (room.inUse === true) {
-      // Drop the booking in the database
-      let currentTimeslot = await Timeslots.findOne({
-        time: this.getStartingTime(),
-        room: req.body.idRoom
-      });
-      if (currentTimeslot === undefined) {
-        sails.log('Error retrieving the timeslot in BookingsController.removeBooking');
-        res.send(400, {err: 'Error retrieving the timeslot'});
-        return;
-      }
-      Bookings.destroy({ timeslot: currentTimeslot.id });
-      sails.axios.get('http://aurora.burrow.io/red').catch(err => sails.log('axios error: ' + err));
+    let currentTimeslot = await Timeslots.findOne({
+      time: this.getStartingTime(),
+      room: req.body.idRoom
+    });
+    if (currentTimeslot === undefined) {
+      sails.log('Error retrieving the timeslot in BookingsController.removeBooking');
+      res.send(400, {err: 'Error retrieving the timeslot'});
+      return;
     }
-    res.send(200, { response: 'ok' });
+    if (currentTimeslot.booked === true) {
+      // Drop the booking in the database
+      await Timeslots.update({ id: currentTimeslot }).set({ booked: 'false' }).then(() => {}).catch(err => res.send(400, {err: err}));
+      await Bookings.destroy({ timeslot: currentTimeslot.id }).then(() => res.send(200, { response: 'ok'} )).catch(err => res.send(400, {err:err}));
+      sails.axios.get('http://aurora.burrow.io/red').catch(err => sails.log('axios error: ' + err));
+    } else {
+      res.send(400, { response: 'Error: room is not presently booked' });
+    }
   },
 
   // DELETE method
