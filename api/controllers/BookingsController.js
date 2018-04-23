@@ -177,14 +177,14 @@ module.exports = {
     await sails.getDatastore()
       .transaction(async (db, proceed) => {
         // Destroy the booking
-        let removedBooking = await Bookings.destroy({ id: req.params.id }).usingConnection(db).fetch();
+        let removedBooking = await Bookings.destroy({ id: req.params.id }).fetch().usingConnection(db);
         if (removedBooking.length !== 1) {
           return proceed(new Error('No booking with that id found'));
         }
         // Update the room's timeslot to not-booked
-        Timeslots.update({ id: removedBooking[0].timeslot }).set({ booked: 'false' }).usingConnection(db);
+        Timeslots.update({ id: removedBooking[0].timeslot }).set({ booked: 'false' }).usingConnection(db).intercept(err => { return res.send(400, {err: err});});
         // Return half hour to user
-        let myUser = await Endusers.findOne({ id: removedBooking[0].enduser }).usingConnection(db);
+        let myUser = await Endusers.findOne({ id: removedBooking[0].enduser }).usingConnection(db).intercept(err => {return res.send(400, {err: err});});
         if (!myUser) {
           return proceed(new Error('No user found'));
         }
