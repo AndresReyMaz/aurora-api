@@ -159,19 +159,19 @@ module.exports = {
   },
 
   // DELETE method
-  delete: async (req, res) => {
-    if (!req.params.id) {
-      return res.status(400).send({ err: 'Error in id '});
-    }
-    // Return hours to the enduser
-    await Bookings.destroy({ id: req.params.id })
-      .then(() => {
-        let enduser = await Endusers.find({ id: req.params.enduser });
+  // delete: async (req, res) => {
+  //   if (!req.params.id) {
+  //     return res.status(400).send({ err: 'Error in id '});
+  //   }
+  //   // Return hours to the enduser
+  //   await Bookings.destroy({ id: req.params.id })
+  //     .then(() => {
+  //       let enduser = await Endusers.find({ id: req.params.enduser });
 
-        res.status(200).send( {status: 'success'});
-      })
-      .catch(err => res.status(404).send( { err: err }));
-    await 
-  }
+  //       res.status(200).send( {status: 'success'});
+  //     })
+  //     .catch(err => res.status(404).send( { err: err }));
+  //   await 
+  // }
 };
 
