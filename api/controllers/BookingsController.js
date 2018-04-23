@@ -88,6 +88,7 @@ module.exports = {
     let currentUser = await Endusers.findOne({ rfid: req.body.idCard });
     if (currentUser === undefined) {
       sails.log('Error: no user found with that rfid.');
+      res.send(400, { response: false });
       return;
     }
     // Check current status of room
@@ -167,20 +168,31 @@ module.exports = {
     }
   },
 
-  // DELETE method
-  // delete: async (req, res) => {
-  //   if (!req.params.id) {
-  //     return res.status(400).send({ err: 'Error in id '});
-  //   }
-  //   // Return hours to the enduser
-  //   await Bookings.destroy({ id: req.params.id })
-  //     .then(() => {
-  //       let enduser = await Endusers.find({ id: req.params.enduser });
-
-  //       res.status(200).send( {status: 'success'});
-  //     })
-  //     .catch(err => res.status(404).send( { err: err }));
-  //   await 
-  // }
+  // DELETE a booking
+  delete: async (req, res) => {
+    if (!req.params.id) {
+      return res.status(400).send({ err: 'Error in id '});
+    }
+    // Begin transaction
+    await sails.getDatastore()
+      .transaction(async (db, proceed) => {
+        // Destroy the booking
+        let removedBooking = await Bookings.destroy({ id: req.params.id }).usingConnection(db).fetch();
+        if (removedBooking.length !== 1) {
+          return proceed(new Error('No booking with that id found'));
+        }
+        // Update the room's timeslot to not-booked
+        Timeslots.update({ id: removedBooking[0].timeslot }).set({ booked: 'false' }).usingConnection(db);
+        // Return half hour to user
+        let myUser = await Endusers.findOne({ id: removedBooking[0].enduser }).usingConnection(db);
+        if (!myUser) {
+          return proceed(new Error('No user found'));
+        }
+        Endusers.update({ id: removedBooking[0].enduser }).set({ remainingHours: (myUser.remainingHours - 1) }).usingConnection(db);
+        return proceed();
+      })
+      .intercept((err) => { return res.send(400, {err: err});});
+    return res.send(200, {status: 'ok'});
+  }
 };
 
