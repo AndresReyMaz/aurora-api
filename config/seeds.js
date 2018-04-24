@@ -78,7 +78,7 @@ module.exports.seeds = {
       lastName: 'de Emprendimiento',
       email: 'ame@example.com',
       remainingHours: 6,
-      rfid: '37:49:89:5E',
+      rfid: '37:49:89:5e',
       password: 'ff'
     },
   ],
@@ -109,6 +109,104 @@ module.exports.seeds = {
     },
   ],
   timeslots: [
+    {
+      time: '1524459600000',
+      day: '1524459600000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524461400000',
+      day: '1524461400000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524463200000',
+      day: '1524463200000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524465000000',
+      day: '1524465000000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524466800000',
+      day: '1524466800000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524468600000',
+      day: '1524468600000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524470400000',
+      day: '1524470400000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524472200000',
+      day: '1524472200000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524474000000',
+      day: '1524474000000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524475800000',
+      day: '1524475800000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524477600000',
+      day: '1524477600000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524479400000',
+      day: '1524479400000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524481200000',
+      day: '1524481200000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524483000000',
+      day: '1524483000000',
+      booked: false,
+      daysUntil: 0,
+      room: 1
+    },
     {
       time: '1524484800000',
       day: '1524484800000',
@@ -289,6 +387,104 @@ module.exports.seeds = {
       day: '1524529800000',
       booked: false,
       daysUntil: 0,
+      room: 1
+    },
+    {
+      time: '1524546000000',
+      day: '1524546000000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524547800000',
+      day: '1524547800000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524549600000',
+      day: '1524549600000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524551400000',
+      day: '1524551400000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524553200000',
+      day: '1524553200000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524555000000',
+      day: '1524555000000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524556800000',
+      day: '1524556800000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524558600000',
+      day: '1524558600000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524560400000',
+      day: '1524560400000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524562200000',
+      day: '1524562200000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524564000000',
+      day: '1524564000000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524565800000',
+      day: '1524565800000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524567600000',
+      day: '1524567600000',
+      booked: false,
+      daysUntil: 1,
+      room: 1
+    },
+    {
+      time: '1524569400000',
+      day: '1524569400000',
+      booked: false,
+      daysUntil: 1,
       room: 1
     },
     {
@@ -474,6 +670,104 @@ module.exports.seeds = {
       room: 1
     },
     {
+      time: '1524632400000',
+      day: '1524632400000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524634200000',
+      day: '1524634200000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524636000000',
+      day: '1524636000000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524637800000',
+      day: '1524637800000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524639600000',
+      day: '1524639600000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524641400000',
+      day: '1524641400000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524643200000',
+      day: '1524643200000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524645000000',
+      day: '1524645000000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524646800000',
+      day: '1524646800000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524648600000',
+      day: '1524648600000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524650400000',
+      day: '1524650400000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524652200000',
+      day: '1524652200000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524654000000',
+      day: '1524654000000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
+      time: '1524655800000',
+      day: '1524655800000',
+      booked: false,
+      daysUntil: 2,
+      room: 1
+    },
+    {
       time: '1524657600000',
       day: '1524657600000',
       booked: false,
@@ -656,6 +950,104 @@ module.exports.seeds = {
       room: 1
     },
     {
+      time: '1524718800000',
+      day: '1524718800000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524720600000',
+      day: '1524720600000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524722400000',
+      day: '1524722400000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524724200000',
+      day: '1524724200000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524726000000',
+      day: '1524726000000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524727800000',
+      day: '1524727800000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524729600000',
+      day: '1524729600000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524731400000',
+      day: '1524731400000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524733200000',
+      day: '1524733200000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524735000000',
+      day: '1524735000000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524736800000',
+      day: '1524736800000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524738600000',
+      day: '1524738600000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524740400000',
+      day: '1524740400000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524742200000',
+      day: '1524742200000',
+      booked: false,
+      daysUntil: 3,
+      room: 1
+    },
+    {
       time: '1524744000000',
       day: '1524744000000',
       booked: false,
@@ -835,6 +1227,104 @@ module.exports.seeds = {
       day: '1524789000000',
       booked: false,
       daysUntil: 3,
+      room: 1
+    },
+    {
+      time: '1524805200000',
+      day: '1524805200000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524807000000',
+      day: '1524807000000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524808800000',
+      day: '1524808800000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524810600000',
+      day: '1524810600000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524812400000',
+      day: '1524812400000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524814200000',
+      day: '1524814200000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524816000000',
+      day: '1524816000000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524817800000',
+      day: '1524817800000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524819600000',
+      day: '1524819600000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524821400000',
+      day: '1524821400000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524823200000',
+      day: '1524823200000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524825000000',
+      day: '1524825000000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524826800000',
+      day: '1524826800000',
+      booked: false,
+      daysUntil: 4,
+      room: 1
+    },
+    {
+      time: '1524828600000',
+      day: '1524828600000',
+      booked: false,
+      daysUntil: 4,
       room: 1
     },
     {
