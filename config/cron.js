@@ -2,7 +2,7 @@
 
 module.exports.cron = {
   startAnnoy: {
-    schedule: '57 * * * 1-5',
+    schedule: '58 * * * 1-5',
     onTick: async function() {
       sails.log((new Date()) + '-- CRON: startAnnoy');
       // Get all the rooms which are still booked
@@ -12,7 +12,7 @@ module.exports.cron = {
       }
       if (rooms.length > 0) {
         // Annoy user
-        sails.axios.get(sails.custom.burrowUrl + '/annoy').catch(err => sails.log(err));
+        sails.axios.get(sails.config.custom.burrowUrl + '/annoy').catch(err => sails.log(err));
       }
     }
   }
