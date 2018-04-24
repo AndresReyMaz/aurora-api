@@ -2,7 +2,7 @@
 
 module.exports.cron = {
   startAnnoy: {
-    schedule: '25,55 7-19 * * 1-5',
+    schedule: '57 * * * 1-5',
     onTick: async function() {
       sails.log((new Date()) + '-- CRON: startAnnoy');
       // Get all the rooms which are still booked
