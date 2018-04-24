@@ -7,7 +7,7 @@
 module.exports = {
   list: (req, res) => {
     //Bookings.find().populate('room').then(data => res.status(200).json(data)).catch(err => res.status(400).json({error: err}));
-    let query = `SELECT bookings.id AS \`idBooking\`, time, day, alias q FROM endusers INNER JOIN bookings ON endusers.id =  bookings.enduser 
+    let query = `SELECT bookings.id AS 'idBooking', time, day, alias q FROM endusers INNER JOIN bookings ON endusers.id =  bookings.enduser 
                   INNER JOIN timeslots ON bookings.timeslot = timeslots.id 
                   INNER JOIN rooms ON timeslots.room = rooms.id WHERE enduser = ` + req.query.enduser + `;`;
     sails.log('Booking query');
