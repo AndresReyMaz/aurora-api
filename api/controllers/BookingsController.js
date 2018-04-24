@@ -117,6 +117,7 @@ module.exports = {
         return;
       }
       if (currentBooking.enduser.rfid !== req.body.idCard) {
+        await Rooms.update({ id: record.id }).set({ inUse: true });
         res.send(200, { response: false });
       } else {
         res.send(200, { response: true });
@@ -127,6 +128,7 @@ module.exports = {
       Bookings.create({ enduser: currentUser.id, timeslot: currentTimeslot.id })
         .then(() => {
           res.send(200, { response: true });
+          Rooms.update({ id: record.id }).set({ inUse: true });
           sails.axios.get('http://aurora.burrow.io/setTimer?time=' + secs)
             .catch(err => sails.log('axios error: ' + err));
         })
@@ -162,6 +164,7 @@ module.exports = {
       // Drop the booking in the database
       await Timeslots.update({ id: currentTimeslot.id }).set({ booked: 'false' }).then(() => {}).catch(err => res.send(400, {err: err}));
       await Bookings.destroy({ timeslot: currentTimeslot.id }).then(() => res.send(200, { response: 'ok'} )).catch(err => res.send(400, {err:err}));
+      await Rooms.update({ id: record.id }).set({ inUse: false });
       sails.axios.get('http://aurora.burrow.io/red').catch(err => sails.log('axios error: ' + err));
     } else {
       res.send(400, { response: 'Error: room is not presently booked' });

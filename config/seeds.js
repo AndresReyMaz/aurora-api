@@ -104,7 +104,7 @@ module.exports.seeds = {
       capacity: 10,
       active: true,
       imageUrl: 'room.png',
-      inUse: false,
+      inUse: true,
       location: 'Biblioteca Sur'
     },
   ],
