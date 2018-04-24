@@ -173,7 +173,7 @@ module.exports = {
 
   // DELETE a booking
   delete: async (req, res) => {
-    if (!req.params.id) {
+    if (req.params.id === undefined || req.params.id === 'undefined') {
       return res.status(400).send({ err: 'Error in id '});
     }
     // Destroy the booking
