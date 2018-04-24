@@ -13,7 +13,7 @@ module.exports = {
     sails.log('Booking query');
     return sails.getDatastore().sendNativeQuery(query)
       .then(data => {
-        data.forEach(item => {
+        data.rows.forEach(item => {
           item.idBooking = item.id;
         });
         res.status(200).json(data.rows);
