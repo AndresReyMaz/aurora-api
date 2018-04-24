@@ -44,7 +44,7 @@ module.exports = {
       time: { '>=': req.body.startTime, '<': req.body.endTime },
       room: req.body.room
     });
-    let filteredArray = await timeslotArray.filter(item => item.booked === true);
+    let filteredArray = await timeslotArray.filter(item => item.booked === 'true');
     if (filteredArray.length > 0) {
       return res.send(400, { err: 'At least one of the chosen timeslots is already booked'} );
     }
