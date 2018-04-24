@@ -17,7 +17,7 @@ module.exports.cron = {
     }
   },
   checkOnTheHour: {
-    schedule: '0,30, * * * 1-5',
+    schedule: '0,30 * * * 1-5',
     onTick: async function() {
       sails.log((new Date()) + '-- CRON: yellow');
       let curTime = await sails.helpers.getStartingTime();
