@@ -7,7 +7,7 @@
 module.exports = {
   list: (req, res) => {
     //Bookings.find().populate('room').then(data => res.status(200).json(data)).catch(err => res.status(400).json({error: err}));
-    let query = `SELECT * FROM endusers INNER JOIN bookings ON endusers.id =  bookings.enduser 
+    let query = `SELECT bookings.id AS idBooking, time, day, alias FROM endusers INNER JOIN bookings ON endusers.id =  bookings.enduser 
                   INNER JOIN timeslots ON bookings.timeslot = timeslots.id 
                   INNER JOIN rooms ON timeslots.room = rooms.id WHERE enduser = ` + req.query.enduser + `;`;
     sails.log('Booking query');
@@ -170,7 +170,7 @@ module.exports = {
       await Timeslots.update({ id: currentTimeslot.id }).set({ booked: 'false' }).then(() => {}).catch(err => res.send(400, {err: err}));
       await Bookings.destroy({ timeslot: currentTimeslot.id }).then(() => res.send(200, { response: 'ok'} )).catch(err => res.send(400, {err:err}));
       await Rooms.update({ id: record.id }).set({ inUse: false });
-      sails.axios.get('http://aurora.burrow.io/red').catch(err => sails.log('axios error: ' + err));
+      sails.axios.get(sails.config.custom.burrowUrl + '/green').catch(err => sails.log('axios error: ' + err));
     } else {
       res.send(400, { response: 'Error: room is not presently booked' });
     }
