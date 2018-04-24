@@ -72,7 +72,7 @@ module.exports = {
     Timeslots.update({
       time: { '>=': req.body.startTime, '<': req.body.endTime },
       room: req.body.room
-    }).set( { booked: true } )
+    }).set( { booked: 'true' } )
     .then(() => {res.send(200, { status: 200 });}).catch(err => {
       sails.log('There was an error updating the timeslots');
       return res.send(400, {err:err});
@@ -183,13 +183,13 @@ module.exports = {
     // Update the room's timeslot to not-booked
     await Timeslots.update({ id: removedBooking[0].timeslot }).set({ booked: 'false' })
       .then(() => {})
-      .catch(err => res.send(400, { err: err }));
+      .catch(err => { return res.send(400, { err: err });});
     // Return half hour to user
     let myUser = await Endusers.findOne({ id: removedBooking[0].enduser });
     if (!myUser) {
       return res.send(400, {err: 'No user found'});
     }
-    await Endusers.update({ id: removedBooking[0].enduser }).set({ remainingHours: (myUser.remainingHours - 1) });
+    await Endusers.update({ id: removedBooking[0].enduser }).set({ remainingHours: (myUser.remainingHours + 1) });
     return res.send(200, {status: 'ok'});
   }
 };
