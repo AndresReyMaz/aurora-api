@@ -46,7 +46,7 @@ module.exports.seeds = {
       lastName: 'Card',
       email: 'white@example.com',
       remainingHours: 6,
-      rfid: '1A:B9:E2:2B',
+      rfid: '1a:b9:e2:2b',
       password: 'ff'
     },
     {
