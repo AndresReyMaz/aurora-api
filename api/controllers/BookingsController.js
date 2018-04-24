@@ -173,25 +173,23 @@ module.exports = {
     if (!req.params.id) {
       return res.status(400).send({ err: 'Error in id '});
     }
-    // Begin transaction
-    await sails.getDatastore()
-      .transaction(async (db, proceed) => {
-        // Destroy the booking
-        let removedBooking = await Bookings.destroy({ id: req.params.id }).fetch().usingConnection(db);
-        if (removedBooking.length !== 1) {
-          return proceed(new Error('No booking with that id found'));
-        }
-        // Update the room's timeslot to not-booked
-        Timeslots.update({ id: removedBooking[0].timeslot }).set({ booked: 'false' }).usingConnection(db).intercept(err => { return res.send(400, {err: err});});
-        // Return half hour to user
-        let myUser = await Endusers.findOne({ id: removedBooking[0].enduser }).usingConnection(db).intercept(err => {return res.send(400, {err: err});});
-        if (!myUser) {
-          return proceed(new Error('No user found'));
-        }
-        Endusers.update({ id: removedBooking[0].enduser }).set({ remainingHours: (myUser.remainingHours - 1) }).usingConnection(db);
-        return proceed();
-      })
-      .intercept((err) => { return res.send(400, {err: err});});
+    // Destroy the booking
+    let removedBooking = await Bookings.destroy({ id: req.params.id }).fetch();
+    sails.log('removedBooking:');
+    sails.log(removedBooking);
+    if (removedBooking.length !== 1) {
+      return res.send(400, {err: 'No booking found with that id'});
+    }
+    // Update the room's timeslot to not-booked
+    await Timeslots.update({ id: removedBooking[0].timeslot }).set({ booked: 'false' })
+      .then(() => {})
+      .catch(err => res.send(400, { err: err }));
+    // Return half hour to user
+    let myUser = await Endusers.findOne({ id: removedBooking[0].enduser });
+    if (!myUser) {
+      return res.send(400, {err: 'No user found'});
+    }
+    await Endusers.update({ id: removedBooking[0].enduser }).set({ remainingHours: (myUser.remainingHours - 1) });
     return res.send(200, {status: 'ok'});
   }
 };
