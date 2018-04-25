@@ -54,17 +54,19 @@ module.exports.cron = {
       sails.log(Date.parse(time));
       for (var i = 7; i < 20; ++i) {
         sails.log(Date.parse(time.setHours(i,0).toString()));
+        time.setHours(i, 0);
         await Timeslots.create({
-          time: String(Date.parse(time.setHours(i, 0))),
-          day: String(Date.parse(time.setHours(i, 0))),
+          time: String(Date.parse(time)),
+          day: String(Date.parse(time)),
           booked: false,
           daysUntil: 4,
           room: 1
         }).then(() => {})
           .catch(err => sails.log('Error creating timeslots: ' + err));
+        time.setHours(i, 30);
         await Timeslots.create({
-          time: String(Date.parse(time.setHours(i, 30))),
-          day: String(Date.parse(time.setHours(i, 30))),
+          time: String(Date.parse(time)),
+          day: String(Date.parse(time)),
           booked: false,
           daysUntil: 4,
           room: 1
