@@ -2,11 +2,11 @@
 
 module.exports.cron = {
   startAnnoy: {
-    schedule: '25,55 * * * 1-5',
+    schedule: '32,55 * * * 1-5',
     onTick: async function() {
       sails.log((new Date()) + '-- CRON: startAnnoy');
       // Get all the rooms which are still booked
-      let rooms = await Rooms.find({ inUse: true });
+      let rooms = await Rooms.find({ inUse: true, id: 1 });
       if (rooms === undefined) {
         return;
       }
@@ -90,7 +90,7 @@ module.exports.cron = {
     },
   },
   startupJob: {
-    schedule: '0 0 1 12 2',
+    schedule: '0 0 1 12 2', // never happens
     runOnInit: true,
     onTick: async function() {
       // Create all the initial timeslots
