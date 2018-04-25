@@ -267,7 +267,7 @@ module.exports = {
     if (booking === undefined) {
       return res.status(404).send({err: 'No booking found with that id'});
     }
-    await Rooms.findOne({ id: booking.room.id })
+    await Rooms.findOne({ id: booking.timeslot.room })
       .then((data) => {
         res.status(200).json(data);
       })
