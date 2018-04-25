@@ -14,10 +14,24 @@ module.exports.cron = {
         // Annoy user
         sails.axios.get(sails.config.custom.burrowUrl + '/threeNoises').catch(err => sails.log(err));
       }
+      // Check if there are any rooms with soon reservations to call yellow on
+      let thisTime = await sails.helpers.getStartingTime();
+      let nextTime = new Date(Date.parse(thisTime) + 30 * 60 * 1000);
+      let curTimeslot = await Timeslots.findOne({ time: Date.parse(thisTime), room: 1 });
+      let nextTimeslot = await Timeslots.findOne({time: Date.parse(nextTime), room: 1});
+      let nextBooking = await Bookings.findOne({ timeslot: nextTimeslot.id });
+      if (nextBooking !== undefined) {
+        let curBooking = await Bookings.findOne({ timeslot: curTimeslot.id });
+        if (curBooking === undefined || curBooking.enduser !== nextBooking.enduser) {
+          sails.log('Called yellow');
+          sails.axios.get(sails.config.custom.burrowUrl + '/yellow').catch(err => sails.log(err));
+        }
+      }
+      
     }
   },
   checkOnTheHour: {
-    schedule: '3,30 * * * 1-5',
+    schedule: '0,30 * * * 1-5',
     onTick: async function() {
       sails.log((new Date()) + '-- CRON: yellow');
       let curTime = await sails.helpers.getStartingTime();
