@@ -114,6 +114,7 @@ module.exports = {
       return;
     }
     if (currentTimeslot.booked === 'true') {
+      sails.log('Room is currently booked');
       // Check that the room's current booking belongs to the person that holds req.body.idCard
       let currentBooking = await Bookings.findOne({ timeslot: currentTimeslot.id }).populate('enduser');
       if (currentBooking === undefined) {
@@ -127,6 +128,7 @@ module.exports = {
         res.send(200, { response: true });
       }
     } else {
+      sails.log('Room is empty');
       // Current room is empty. Create a booking for half an hour
       let secs = await sails.helpers.getRemainingSeconds();
       Bookings.create({ enduser: currentUser.id, timeslot: currentTimeslot.id })
