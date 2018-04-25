@@ -53,7 +53,6 @@ module.exports.cron = {
       time = new Date(Date.parse(time) + 6 * 24 * 60 * 60 * 1000);
       sails.log(Date.parse(time));
       for (var i = 7; i < 20; ++i) {
-        sails.log(Date.parse(time.setHours(i,0).toString()));
         time.setHours(i, 0);
         await Timeslots.create({
           time: String(Date.parse(time)),
@@ -74,7 +73,44 @@ module.exports.cron = {
           .catch(err => sails.log('Error creating timeslots: ' + err));
       }
     },
-    runOnInit: true
+  },
+  startupJob: {
+    runOnInit: true,
+    onTick: async function() {
+      // Create all the initial timeslots
+      sails.log((new Date()) + '-- CRON: startupJob');
+      let time = new Date();
+      time.setHours(7,0,0,0);
+      
+      for (var j = 0; j < 5; ++j) {
+        if (time.getDay() === 0) { // Sunday
+          time = new Date(Date.parse(time) + 1 * 24 * 60 * 60 * 1000);
+        } else if (time.getDay === 6) { // Saturday
+          time = new Date(Date.parse(time) + 2 * 24 * 60 * 60 * 1000);
+        }
+        for (var i = 7; i < 20; ++i) {
+          time.setHours(i, 0);
+          await Timeslots.create({
+            time: String(Date.parse(time)),
+            day: String(Date.parse(time)),
+            booked: false,
+            daysUntil: j,
+            room: 1
+          }).then(() => {})
+            .catch(err => sails.log('Error creating timeslots: ' + err));
+          time.setHours(i, 30);
+          await Timeslots.create({
+            time: String(Date.parse(time)),
+            day: String(Date.parse(time)),
+            booked: false,
+            daysUntil: j,
+            room: 1
+          }).then(() => {})
+            .catch(err => sails.log('Error creating timeslots: ' + err));
+        }
+        time.setDate(time.getDate() + 1);
+      }
+    }
   }
 };
 
