@@ -29,6 +29,39 @@ module.exports.cron = {
       if (rooms.length > 0) {
         sails.axios.get(sails.config.custom.burrowUrl + '/yellow').catch(err => sails.log(err));
       }
+      // Update the rooms which have no bookings
+      //rooms.forEach()
     }
+  },
+  midnightJob: {
+    schedule: '0 0 * * 2-6',
+    onTick: async function() {
+      sails.log((new Date()) + '-- CRON: midnightJob');
+      // Remove all the timeslots that are on date just concluded
+      await Timeslots.destroy({ daysUntil: 0 })
+        .catch(err => sails.log('Error destroying timeslots: ' + err));      
+      // Update all timeslots to date less than the date
+      let query = 'UPDATE timeslots SET "daysUntil" = "daysUntil" - 1;';
+      sails.getDatastore().sendNativeQuery(query)
+        .catch(err => sails.log('Error updating timeslots: ' + err));
+      // Create new timeslots 6 days from now
+      let time = await sails.helpers.getStartingTime();
+      time.setHours(0, 0, 0, 0);
+      time.setMilliseconds(Date.parse(time) + 6 * 24 * 60 * 60 * 1000);
+      for (var i = 7; i < 20; ++i) {
+        await Timeslots.create({
+          time: Date.parse(time.setHour(i)),
+          day: Date.parse(time.setHour(i)),
+          booked: false,
+          daysUntil: 4,
+          room: 1
+        }).then(() => {})
+          .catch(err => sails.log('Error creating timeslots: ' + err));
+      }
+    },
+    runOnInit: true
   }
 };
+
+// Every half hour, set booked = true to all bookings that have now concluded.
+// Reducir horas del usuario cuando se aparta en caliente

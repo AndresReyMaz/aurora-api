@@ -71,7 +71,7 @@ module.exports = {
       .set( { remainingHours: (parseInt(enduser.remainingHours) - parseInt(timeslotArray.length)) })
       .then(() => {})
       .catch(err => { return res.send(400, {err:err}); });
-
+    // If the current starting time is same as r
     // Convert the timeslots' booked to true
     Timeslots.update({
       time: { '>=': req.body.startTime, '<': req.body.endTime },
@@ -188,7 +188,7 @@ module.exports = {
       return res.send(400, {err: 'No booking found with that id'});
     }
     // Update the room's timeslot to not-booked
-    await Timeslots.update({ id: removedBooking[0].timeslot }).set({ booked: 'false' })
+    let timeslot = await Timeslots.update({ id: removedBooking[0].timeslot }).set({ booked: 'false' }).fetch()
       .then(() => {})
       .catch(err => { return res.send(400, { err: err });});
     // Return half hour to user
@@ -197,6 +197,12 @@ module.exports = {
       return res.send(400, {err: 'No user found'});
     }
     await Endusers.update({ id: removedBooking[0].enduser }).set({ remainingHours: (myUser.remainingHours + 1) });
+
+    // Maybe set room to inUse false, depending if the starting time is same as current starting time
+    let time1 = await sails.helpers.getStartingTime();
+    if (Date.parse(time1) === timeslot.time) {
+      await Rooms.update({ id: timeslot.room }).set({inUse: false});
+    }
     return res.send(200, {status: 'ok'});
   }
 };
