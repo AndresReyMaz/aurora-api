@@ -75,6 +75,7 @@ module.exports.cron = {
     },
   },
   startupJob: {
+    schedule: '0 0 1 12 2',
     runOnInit: true,
     onTick: async function() {
       // Create all the initial timeslots
