@@ -126,6 +126,9 @@ module.exports.cron = {
         }
         time.setDate(time.getDate() + 1);
       }
+
+      let curTime = await sails.helpers.getStartingTime();
+      await Timeslots.update({ time: {'<=': Date.parse(curTime) }}).set({ booked: 'true' }).catch(err => sails.log(err));
     }
   }
 };
