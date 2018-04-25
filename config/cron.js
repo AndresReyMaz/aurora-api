@@ -89,7 +89,7 @@ module.exports.cron = {
         } else if (time.getDay() === 6) { // Saturday
           time = new Date(Date.parse(time) + 2 * 24 * 60 * 60 * 1000);
         }
-        for (var i = 7; i < 20; ++i) {
+        for (var i = 7; i < 24; ++i) {
           time.setHours(i, 0);
           await Timeslots.create({
             time: String(Date.parse(time)),
