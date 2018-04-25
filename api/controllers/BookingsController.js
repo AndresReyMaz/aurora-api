@@ -260,6 +260,20 @@ module.exports = {
       await Rooms.update({ id: timeslot.room }).set({inUse: false});
     }
     return res.send(200, {status: 'ok'});
+  },
+
+  getRoom: async(req, res) => {
+    let booking = await Bookings.findOne({id: req.params.id}).populate('room');
+    if (booking === undefined) {
+      return res.status(404).send({err: 'No booking found with that id'});
+    }
+    await Rooms.findOne({ id: booking.room.id })
+      .then((data) => {
+        res.status(200).json(data);
+      })
+      .catch(err => {
+        res.status(400).send({err: err});
+      });
   }
 };
 

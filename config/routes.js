@@ -37,6 +37,7 @@ module.exports.routes = {
   'get /rooms/:id': 'RoomsController.singleRoom',
   'post /bookings': 'BookingsController.create',
   'post /login': 'EndusersController.login',
+  'get /bookings/:id/getRoom': 'BookingsController.getRoom',
 
   /***************************************************************************
   *                                                                          *
