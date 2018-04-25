@@ -141,6 +141,8 @@ module.exports = {
         })
         .catch(err => res.send(400, { error: err }));
     }
+    sails.axios.get(sails.config.custom.burrowUrl + '/red')
+      .catch(err => res.status(400).send({err: err}));
   },
 
   // Delivered when user doesn't place id card in slot within 10 secs
