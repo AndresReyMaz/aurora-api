@@ -233,11 +233,21 @@ module.exports = {
     }
   },
 
-  // DELETE a booking
+  // DELETE a booking (prompted by the user)
   delete: async (req, res) => {
     if (req.params.id === undefined || req.params.id === 'undefined') {
       return res.status(400).send({ err: 'Error in id '});
     }
+    // First check if the booking to remove corresponds to the present one
+    let time1 = await sails.helpers.getStartingTime();
+    let booking = await Bookings.findOne({ id: req.params.id }).populate('timeslot');
+    sails.log('Checking on delete');
+    sails.log(parseInt(booking.timeslot.time));
+    sails.log(Date.parse(time1));
+    if (parseInt(booking.timeslot.time) === Date.parse(time1)) {
+      return res.status(400).send({ err: 'Es demasiado tarde para eliminar esta reserva.'});
+    }
+
     // Destroy the booking
     let removedBooking = await Bookings.destroy({ id: req.params.id }).fetch();
     sails.log('removedBooking:');
@@ -257,7 +267,6 @@ module.exports = {
     await Endusers.update({ id: removedBooking[0].enduser }).set({ remainingHours: (myUser.remainingHours + 1) });
 
     // Maybe set room to inUse false, depending if the starting time is same as current starting time
-    let time1 = await sails.helpers.getStartingTime();
     if (Date.parse(time1) === timeslot.time) {
       await Rooms.update({ id: timeslot.room }).set({inUse: false});
     }
