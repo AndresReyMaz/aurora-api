@@ -41,6 +41,7 @@ module.exports = {
       let thisTime = await sails.helpers.getStartingTime();
       req.body.endTime = (Date.parse(thisTime) + 30 * 60 * 1000);
     }
+    sails.log(req.body.endTime);
     // Get total time between the two times
     let timeDiff = (parseInt(req.body.endTime) - parseInt(req.body.startTime));
     if (timeDiff > enduser.remainingHours * 30 * 60 * 1000) {
