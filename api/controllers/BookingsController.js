@@ -35,7 +35,7 @@ module.exports = {
     // Check that the starting time is later than the current one
     let time1 = await sails.helpers.getStartingTime();
     if (req.body.startTime <= Date.parse(time1)) {
-      return res.status(400).send({err: 'Es demasiado tarde para reservar a esta hora. Puede ir directamente a la sala y hacer una reserva instantánea si esta se encuentra libre.'});
+      return res.status(400).send({err: 'Es demasiado tarde para reservar a esta hora. Puede ir a la sala y hacer una reserva directa si esta se encuentra libre.'});
     }
 
     // Get total time between the two times

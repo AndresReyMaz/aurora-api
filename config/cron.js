@@ -30,8 +30,10 @@ module.exports.cron = {
         sails.axios.get(sails.config.custom.burrowUrl + '/yellow').catch(err => sails.log(err));
       }
       // Update the rooms which have no bookings
-      //rooms.forEach()
-    }
+      // Update all past rooms to have booked = false
+      await Timeslots.update({ time: {'<=': Date.parse(curTime) }}).set({ booked: 'false' }).catch(err => sails.log(err));
+    },
+    runOnInit: true
   },
   midnightJob: {
     schedule: '0 0 * * 2-6',
