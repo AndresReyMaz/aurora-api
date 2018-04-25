@@ -86,7 +86,7 @@ module.exports.cron = {
       for (var j = 0; j < 5; ++j) {
         if (time.getDay() === 0) { // Sunday
           time = new Date(Date.parse(time) + 1 * 24 * 60 * 60 * 1000);
-        } else if (time.getDay === 6) { // Saturday
+        } else if (time.getDay() === 6) { // Saturday
           time = new Date(Date.parse(time) + 2 * 24 * 60 * 60 * 1000);
         }
         for (var i = 7; i < 20; ++i) {
