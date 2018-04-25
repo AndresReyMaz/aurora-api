@@ -37,13 +37,14 @@ module.exports = {
     if (req.body.startTime <= Date.parse(time1)) {
       return res.status(400).send({err: 'Es demasiado tarde para reservar a esta hora. Puede ir a la sala y hacer una reserva directa si esta se encuentra libre.'});
     }
-    if (req.body.endTime === -1) {
+    let endTime = req.body.endTime;
+    if (endTime === -1) {
       let thisTime = await sails.helpers.getStartingTime();
-      req.body.endTime = await (Date.parse(thisTime) + 30 * 60 * 1000);
+      endTime = await (Date.parse(thisTime) + 30 * 60 * 1000);
     }
-    sails.log(req.body.endTime);
+    sails.log(endTime);
     // Get total time between the two times
-    let timeDiff = (parseInt(req.body.endTime) - parseInt(req.body.startTime));
+    let timeDiff = (parseInt(endTime) - parseInt(req.body.startTime));
     if (timeDiff > enduser.remainingHours * 30 * 60 * 1000) {
       sails.log('Only ' + (enduser.remainingHours * 30 * 60 * 1000) + ' remaining milis');
       return res.send(400, { err: 'User does not have enough remaining hours' } );
@@ -54,7 +55,7 @@ module.exports = {
 
     // Check that none of the timeslots in question are booked
     let timeslotArray = await Timeslots.find({
-      time: { '>=': req.body.startTime, '<': req.body.endTime },
+      time: { '>=': req.body.startTime, '<': endTime },
       room: req.body.room
     });
     let filteredArray = await timeslotArray.filter(item => item.booked === 'true');
@@ -84,7 +85,7 @@ module.exports = {
     // If the current starting time is same as r
     // Convert the timeslots' booked to true
     Timeslots.update({
-      time: { '>=': req.body.startTime, '<': req.body.endTime },
+      time: { '>=': req.body.startTime, '<': endTime },
       room: req.body.room
     }).set( { booked: 'true' } )
     .then(() => {res.send(200, { status: 200 });}).catch(err => {
