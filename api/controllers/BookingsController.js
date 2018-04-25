@@ -131,7 +131,7 @@ module.exports = {
       sails.log('Room is empty');
       // Current room is empty. Create a booking for half an hour
       let secs = await sails.helpers.getRemainingSeconds();
-      Bookings.create({ enduser: currentUser.id, timeslot: currentTimeslot.id })
+      await Bookings.create({ enduser: currentUser.id, timeslot: currentTimeslot.id })
         .then(() => {
           res.send(200, { response: true });
           Rooms.update({ id: record.id }).set({ inUse: true });
