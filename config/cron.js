@@ -48,7 +48,8 @@ module.exports.cron = {
       let time = await sails.helpers.getStartingTime();
       time.setHours(0, 0, 0, 0);
       sails.log(time);
-      sails.log(Date.parse(time.setHours(7,0)));
+      time.setHours(7,0);
+      sails.log(Date.parse(time));
       time = new Date(Date.parse(time) + 6 * 24 * 60 * 60 * 1000);
       sails.log(Date.parse(time));
       for (var i = 7; i < 20; ++i) {
