@@ -25,7 +25,6 @@ module.exports = {
 
     // Get starting time.
     let time = new Date();
-    sails.log('The current time is:' + time);
     if (time.getMinutes() < 30) {
       time.setMinutes(0);
     } else {
@@ -33,7 +32,6 @@ module.exports = {
     }
     time.setSeconds(0);
     time.setMilliseconds(0);
-    sails.log('Returning time: ' + time);
     // Send back the result through the success exit.
     return exits.success(time);
 
