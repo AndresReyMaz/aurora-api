@@ -263,7 +263,7 @@ module.exports = {
   },
 
   getRoom: async(req, res) => {
-    let booking = await Bookings.findOne({id: req.params.id}).populate('room');
+    let booking = await Bookings.findOne({id: req.params.id}).populate('timeslot');
     if (booking === undefined) {
       return res.status(404).send({err: 'No booking found with that id'});
     }
