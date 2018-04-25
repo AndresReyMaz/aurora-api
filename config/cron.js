@@ -50,6 +50,7 @@ module.exports.cron = {
       sails.log(time);
       sails.log(Date.parse(time));
       time = new Date(Date.parse(time) + 6 * 24 * 60 * 60 * 1000);
+      sails.log(Date.parse(time));
       for (var i = 7; i < 20; ++i) {
         sails.log(Date.parse(time.setHours(i,0).toString()));
         await Timeslots.create({
