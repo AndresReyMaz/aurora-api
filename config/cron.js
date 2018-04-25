@@ -2,7 +2,7 @@
 
 module.exports.cron = {
   startAnnoy: {
-    schedule: '34,55 * * * 1-5',
+    schedule: '37,55 * * * 1-5',
     onTick: async function() {
       sails.log((new Date()) + '-- CRON: startAnnoy');
       // Get all the rooms which are still booked
@@ -128,7 +128,7 @@ module.exports.cron = {
       }
 
       let curTime = await sails.helpers.getStartingTime();
-      await Timeslots.update({ time: {'<=': Date.parse(curTime) }}).set({ booked: 'true' }).catch(err => sails.log(err));
+      await Timeslots.update({ time: {'<=': Date.parse(curTime) - 30 * 60 * 1000 }}).set({ booked: 'true' }).catch(err => sails.log(err));
     }
   }
 };
