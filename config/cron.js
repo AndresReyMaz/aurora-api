@@ -17,7 +17,7 @@ module.exports.cron = {
     }
   },
   checkOnTheHour: {
-    schedule: '0,30 * * * 1-5',
+    schedule: '3,30 * * * 1-5',
     onTick: async function() {
       sails.log((new Date()) + '-- CRON: yellow');
       let curTime = await sails.helpers.getStartingTime();
@@ -31,7 +31,7 @@ module.exports.cron = {
       }
       // Update the rooms which have no bookings
       // Update all past rooms to have booked = false
-      await Timeslots.update({ time: {'<=': Date.parse(curTime) }}).set({ booked: 'false' }).catch(err => sails.log(err));
+      await Timeslots.update({ time: {'<=': Date.parse(curTime) }}).set({ booked: 'true' }).catch(err => sails.log(err));
     },
   },
   midnightJob: {
