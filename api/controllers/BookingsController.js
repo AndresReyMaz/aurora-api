@@ -8,7 +8,6 @@ module.exports = {
   list: (req, res) => {
     //Bookings.find().populate('room').then(data => res.status(200).json(data)).catch(err => res.status(400).json({error: err}));
     let query = 'SELECT bookings.id AS "idBooking", time, day, alias FROM endusers INNER JOIN bookings ON endusers.id =  bookings.enduser INNER JOIN timeslots ON bookings.timeslot = timeslots.id INNER JOIN rooms ON timeslots.room = rooms.id WHERE enduser = ' + req.query.enduser + ';';
-    sails.log('Booking query');
     sails.log(query);
     return sails.getDatastore().sendNativeQuery(query)
       .then(data => {
@@ -225,6 +224,7 @@ module.exports = {
       sails.axios.get(sails.config.custom.burrowUrl + '/stopAndResetTimer').catch(err => sails.log('axios error: ' + err));
       sails.axios.get(sails.config.custom.burrowUrl + '/green').catch(err => sails.log('axios error: ' + err));
     } else {
+      sails.log('currentTimeslot.booked was false');
       res.send(400, { response: 'Error: room is not presently booked' });
     }
   },
