@@ -47,7 +47,7 @@ module.exports.cron = {
       // Create new timeslots 6 days from now
       let time = await sails.helpers.getStartingTime();
       time.setHours(0, 0, 0, 0);
-      time.setMilliseconds(Date.parse(time) + 6 * 24 * 60 * 60 * 1000);
+      time = new Date(Date.parse(time) + 6 * 24 * 60 * 60 * 1000);
       for (var i = 7; i < 20; ++i) {
         await Timeslots.create({
           time: String(Date.parse(time.setHours(i, 0))),
