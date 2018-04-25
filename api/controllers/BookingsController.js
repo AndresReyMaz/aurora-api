@@ -144,6 +144,7 @@ module.exports = {
 
   // Delivered when user doesn't place id card in slot within 10 secs
   removeBooking: async (req, res) => {
+    sails.log('removeBooking called');
     if (req.body.idRoom === undefined) {
       sails.log('idRoom was undefined in removeBooking');
       res.send(400, {err: 'No idRoom parameter was set'});
@@ -171,6 +172,54 @@ module.exports = {
       await Timeslots.update({ id: currentTimeslot.id }).set({ booked: 'false' }).then(() => {}).catch(err => res.send(400, {err: err}));
       await Bookings.destroy({ timeslot: currentTimeslot.id }).then(() => res.send(200, { response: 'ok'} )).catch(err => res.send(400, {err:err}));
       await Rooms.update({ id: record.id }).set({ inUse: false });
+      sails.axios.get(sails.config.custom.burrowUrl + '/green').catch(err => sails.log('axios error: ' + err));
+    } else {
+      res.send(400, { response: 'Error: room is not presently booked' });
+    }
+  },
+
+  // Delivered when user removes card from slot
+  rmBooking: async (req, res) => {
+    sails.log('removeBooking called');
+    if (req.body.idRoom === undefined) {
+      sails.log('idRoom was undefined in removeBooking');
+      res.send(400, {err: 'No idRoom parameter was set'});
+      return;
+    }
+    let room = await Rooms.findOne({ id: req.body.idRoom });
+    if (room === undefined) {
+      sails.log('idRoom does not match an exisiting room');
+      res.send(400, {err: 'No room with that id was found'});
+      return;
+    }
+    let time1 = await sails.helpers.getStartingTime();
+    sails.log(Date.parse(time1));
+    let currentTimeslot = await Timeslots.findOne({
+      time: Date.parse(time1),
+      room: req.body.idRoom
+    });
+    if (currentTimeslot === undefined) {
+      sails.log('Error retrieving the timeslot in BookingsController.removeBooking');
+      res.send(400, {err: 'Error retrieving the timeslot'});
+      return;
+    }
+    // CHECK IF USER IS THE OWNER OF THE CURRENT RES
+    let enduser = await Endusers.findOne({ rfid: req.body.idCard});
+    let booking = await Bookings.findOne({ enduser: enduser.id, timeslot: currentTimeslot.id });
+    if (booking === undefined) {
+      // No matching reservation found. Means the user is not supposed to be there.
+      sails.log('Calling stop');
+      sails.axios.get(sails.config.custom.burrowUrl + '/stop').catch(err => sails.log('axios error: ' + err));
+      sails.axios.get(sails.config.custom.burrowUrl + '/green').catch(err => sails.log('axios error: ' + err));
+      return;
+    }
+    if (currentTimeslot.booked === 'true') {
+      sails.log('Calling stopAndResetTimer');
+      // Drop the booking in the database
+      await Timeslots.update({ id: currentTimeslot.id }).set({ booked: 'false' }).then(() => {}).catch(err => res.send(400, {err: err}));
+      await Bookings.destroy({ timeslot: currentTimeslot.id }).then(() => res.send(200, { response: 'ok'} )).catch(err => res.send(400, {err:err}));
+      await Rooms.update({ id: record.id }).set({ inUse: false });
+      sails.axios.get(sails.config.custom.burrowUrl + '/stopAndResetTimer').catch(err => sails.log('axios error: ' + err));
       sails.axios.get(sails.config.custom.burrowUrl + '/green').catch(err => sails.log('axios error: ' + err));
     } else {
       res.send(400, { response: 'Error: room is not presently booked' });
