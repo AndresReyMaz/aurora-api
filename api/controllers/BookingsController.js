@@ -89,7 +89,7 @@ module.exports = {
       res.send(400, { error: 'one or more parameters missing' } );
       return;
     }
-    let currentUser = await Endusers.findOne({ rfid: req.body.idCard });
+    let currentUser = await Endusers.findOne({ rfid: req.body.idCard }).catch(err => {return res.status(400).send({err:err});});
     if (currentUser === undefined) {
       sails.log('Error: no user found with that rfid.');
       res.send(200, { response: false });
@@ -131,10 +131,10 @@ module.exports = {
       sails.log('Room is empty');
       // Current room is empty. Create a booking for half an hour
       let secs = await sails.helpers.getRemainingSeconds();
+      await Rooms.update({ id: record.id }).set({ inUse: true });
       await Bookings.create({ enduser: currentUser.id, timeslot: currentTimeslot.id })
         .then(() => {
           res.send(200, { response: true });
-          Rooms.update({ id: record.id }).set({ inUse: true });
           sails.axios.get(sails.config.custom.burrowUrl + '/setTimer?time=' + secs)
             .catch(err => sails.log('axios error: ' + err));
         })
@@ -187,7 +187,7 @@ module.exports = {
       res.send(400, {err: 'No idRoom parameter was set'});
       return;
     }
-    let room = await Rooms.findOne({ id: req.body.idRoom });
+    let room = await Rooms.findOne({ id: req.body.idRoom }).catch(err => {sails.log('error retrieving room'); return res.status(400).send({err:err});});
     if (room === undefined) {
       sails.log('idRoom does not match an exisiting room');
       res.send(400, {err: 'No room with that id was found'});
@@ -198,15 +198,17 @@ module.exports = {
     let currentTimeslot = await Timeslots.findOne({
       time: Date.parse(time1),
       room: req.body.idRoom
-    });
+    }).catch(err => {sails.log('Error retrieving timeslot'); return res.status(400).send({err:err});});
     if (currentTimeslot === undefined) {
       sails.log('Error retrieving the timeslot in BookingsController.removeBooking');
       res.send(400, {err: 'Error retrieving the timeslot'});
       return;
     }
     // CHECK IF USER IS THE OWNER OF THE CURRENT RES
-    let enduser = await Endusers.findOne({ rfid: req.body.idCard});
-    let booking = await Bookings.findOne({ enduser: enduser.id, timeslot: currentTimeslot.id });
+    let enduser = await Endusers.findOne({ rfid: req.body.idCard})
+      .catch(err => {sails.log('Error retrieving enduser'); return res.status(400).send({err:err});});
+    let booking = await Bookings.findOne({ enduser: enduser.id, timeslot: currentTimeslot.id })
+      .catch(err => {sails.log('Error retrieving booking'); return res.status(400).send({err:err});});
     if (booking === undefined) {
       // No matching reservation found. Means the user is not supposed to be there.
       sails.log('Calling stop');
