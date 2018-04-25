@@ -278,7 +278,7 @@ module.exports = {
     await Endusers.update({ id: removedBooking[0].enduser }).set({ remainingHours: (myUser.remainingHours + 1) });
 
     // Maybe set room to inUse false, depending if the starting time is same as current starting time
-    if (Date.parse(time1) === timeslot.time) {
+    if (Date.parse(time1) === timeslot[0].time) {
       await Rooms.update({ id: timeslot.room }).set({inUse: false});
     }
     return res.send(200, {status: 'ok'});
