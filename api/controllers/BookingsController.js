@@ -270,6 +270,8 @@ module.exports = {
     let timeslot = await Timeslots.update({ id: removedBooking[0].timeslot }).set({ booked: 'false' }).fetch()
       .then(() => {})
       .catch(err => { return res.send(400, { err: err });});
+    sails.log('timeslot: ');
+    sails.log(timeslot);
     // Return half hour to user
     let myUser = await Endusers.findOne({ id: removedBooking[0].enduser });
     if (!myUser) {
