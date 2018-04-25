@@ -37,7 +37,10 @@ module.exports = {
     if (req.body.startTime <= Date.parse(time1)) {
       return res.status(400).send({err: 'Es demasiado tarde para reservar a esta hora. Puede ir a la sala y hacer una reserva directa si esta se encuentra libre.'});
     }
-
+    if (req.body.endTime === -1) {
+      let thisTime = await sails.helpers.getStartingTime();
+      req.body.endTime = new Date(Date.parse(thisTime) + 30 * 60 * 1000);
+    }
     // Get total time between the two times
     let timeDiff = (parseInt(req.body.endTime) - parseInt(req.body.startTime));
     if (timeDiff > enduser.remainingHours * 30 * 60 * 1000) {
