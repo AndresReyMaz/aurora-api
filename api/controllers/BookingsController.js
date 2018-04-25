@@ -132,6 +132,7 @@ module.exports = {
       let secs = await sails.helpers.getRemainingSeconds();
       await Rooms.update({ id: record.id }).set({ inUse: true });
       await Timeslots.update({id: currentTimeslot.id }).set({booked: 'true'});
+      await Endusers.update({id: currentUser.id}).set({remainingHours: currentUser.remainingHours - 1 });
       await Bookings.create({ enduser: currentUser.id, timeslot: currentTimeslot.id })
         .then(() => {
           res.send(200, { response: true });
