@@ -32,6 +32,12 @@ module.exports = {
       sails.log('Room was undefined');
       return res.send(400, { err: 'No room with that id exists'} );
     }
+    // Check that the starting time is later than the current one
+    let time1 = await sails.helpers.getStartingTime();
+    if (req.body.startTime <= Date.parse(time1)) {
+      return res.status(400).send({err: 'Es demasiado tarde para reservar a esta hora. Puede ir directamente a la sala y hacer una reserva instantánea si esta se encuentra libre.'});
+    }
+
     // Get total time between the two times
     let timeDiff = (parseInt(req.body.endTime) - parseInt(req.body.startTime));
     if (timeDiff > enduser.remainingHours * 30 * 60 * 1000) {
@@ -51,6 +57,7 @@ module.exports = {
     if (filteredArray.length > 0) {
       return res.send(400, { err: 'At least one of the chosen timeslots is already booked'} );
     }
+    
     timeslotArray.forEach(timeslot => {
       // Create my bookings
       Bookings.create({
