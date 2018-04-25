@@ -12,7 +12,7 @@ module.exports.cron = {
       }
       if (rooms.length > 0) {
         // Annoy user
-        sails.axios.get(sails.config.custom.burrowUrl + '/annoy').catch(err => sails.log(err));
+        sails.axios.get(sails.config.custom.burrowUrl + '/threeNoises').catch(err => sails.log(err));
       }
     }
   },
