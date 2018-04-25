@@ -50,8 +50,16 @@ module.exports.cron = {
       time.setMilliseconds(Date.parse(time) + 6 * 24 * 60 * 60 * 1000);
       for (var i = 7; i < 20; ++i) {
         await Timeslots.create({
-          time: Date.parse(time.setHour(i)),
-          day: Date.parse(time.setHour(i)),
+          time: Date.parse(time.setHours(i, 0)),
+          day: Date.parse(time.setHours(i, 0)),
+          booked: false,
+          daysUntil: 4,
+          room: 1
+        }).then(() => {})
+          .catch(err => sails.log('Error creating timeslots: ' + err));
+        await Timeslots.create({
+          time: Date.parse(time.setHours(i, 30)),
+          day: Date.parse(time.setHours(i, 30)),
           booked: false,
           daysUntil: 4,
           room: 1
