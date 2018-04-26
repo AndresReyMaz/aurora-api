@@ -23,6 +23,12 @@ node {
         }
     }
 
+    stage('Run image') {
+        docker.image('andresreymaz/aurora-api:latest').withRun('-p 8081:8081') { c->
+
+        }
+    }
+
     stage('Push image') {
         /* Finally, we'll push the image with two tags:
          * First, the incremental build number from Jenkins
