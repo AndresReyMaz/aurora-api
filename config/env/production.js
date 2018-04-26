@@ -47,32 +47,27 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     default: {
+
+      /***************************************************************************
+      *                                                                          *
+      * Want to use a different database during development?                     *
+      *                                                                          *
+      * 1. Choose an adapter:                                                    *
+      *    https://sailsjs.com/plugins/databases                                 *
+      *                                                                          *
+      * 2. Install it as a dependency of your Sails app.                         *
+      *    (For example:  npm install sails-mysql --save)                        *
+      *                                                                          *
+      * 3. Then pass it in, along with a connection URL.                         *
+      *    (See https://sailsjs.com/config/datastores for help.)                 *
+      *                                                                          *
+      ***************************************************************************/
       // adapter: 'sails-mysql',
       // url: 'mysql://user:password@host:port/database',
-      //--------------------------------------------------------------------------
-      //  /\   To avoid checking it in to version control, you might opt to set
-      //  ||   sensitive credentials like `url` using an environment variable.
-      //
-      //  For example:
-      //  ```
-      //  sails_datastores__default__url=mysql://admin:myc00lpAssw2D@db.example.com:3306/my_prod_db
-      //  ```
-      //--------------------------------------------------------------------------
-
-      /****************************************************************************
-      *                                                                           *
-      * More adapter-specific options                                             *
-      *                                                                           *
-      * > For example, for some hosted PostgreSQL providers (like Heroku), the    *
-      * > extra `ssl: true` option is mandatory and must be provided.             *
-      *                                                                           *
-      * More info:                                                                *
-      * https://sailsjs.com/config/datastores                                     *
-      *                                                                           *
-      ****************************************************************************/
-      // ssl: true,
-
+      adapter: require('sails-postgresql'),
+      url: 'postgres://dbadmin:BlackPanther2018@rm-2ev79j2k1vu4ud56i.pg.rds.aliyuncs.com:3433/aurora'
     },
+
 
   },
 
@@ -92,6 +87,20 @@ module.exports = {
     ***************************************************************************/
     migrate: 'safe',
 
+
+    attributes: {
+      createdAt: { type: 'number', autoCreatedAt: true, },
+      updatedAt: { type: 'number', autoUpdatedAt: true, },
+      id: { type: 'number', autoIncrement: true, },
+      //--------------------------------------------------------------------------
+      //  /\   Using MongoDB?
+      //  ||   Replace `id` above with this instead:
+      //
+      // ```
+      // id: { type: 'string', columnName: '_id' },
+      // ```
+      //--------------------------------------------------------------------------
+    },
     /***************************************************************************
     *                                                                          *
     * If, in production, this app has access to physical-layer CASCADE         *
@@ -118,7 +127,7 @@ module.exports = {
   *                                                                         *
   ***************************************************************************/
   blueprints: {
-    shortcuts: false,
+    shortcuts: true,
   },
 
 
@@ -148,10 +157,11 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     cors: {
-      // allowOrigins: [
-      //   'https://example.com',
-      // ]
+      allRoutes: true,
+      allowOrigins: '*',
+      allowCredentials: false,
     },
+
 
   },
 
@@ -388,6 +398,7 @@ module.exports = {
     // sails_custom__stripeSecret=sk_prod__fake_Nfgh82401348jaDa3lkZ0d9Hm
     // ```
     //--------------------------------------------------------------------------
+    burrowUrl: 'http://auroraDoor.burrow.io'
 
   },
 
