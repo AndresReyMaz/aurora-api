@@ -250,7 +250,7 @@ module.exports = {
   *                                                                          *
   ***************************************************************************/
   sockets: {
-
+    onlyAllowOrigins: ["http://www.mydeployedapp.com", "http://mydeployedapp.com"]  
     /***************************************************************************
     *                                                                          *
     * Uncomment the `onlyAllowOrigins` whitelist below to configure which      *
