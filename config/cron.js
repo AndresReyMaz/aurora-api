@@ -93,6 +93,11 @@ module.exports.cron = {
     schedule: '0 0 1 12 2', // never happens
     runOnInit: true,
     onTick: async function() {
+      // Drop all timeslots and all bookings
+      await Bookings.destroy({});
+      await Timeslots.destroy({});
+
+
       // Create all the initial timeslots
       sails.log((new Date()) + '-- CRON: startupJob');
       let time = new Date();
