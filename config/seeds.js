@@ -112,7 +112,7 @@ module.exports.seeds = {
         location: 'Biblioteca Sur'
       },
     ],
-    unique: [alias]
+    unique: ['alias']
   },
   timeslots: [],
   bookings: [
