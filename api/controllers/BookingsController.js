@@ -291,7 +291,7 @@ module.exports = {
       time: Date.parse(time1),
       room: req.body.idRoom
     }).catch(err => {
-      sails.log('Error retrieving timeslot'); 
+      sails.log('Error retrieving timeslot');
       res.status(400).send({ err: err });
       return;
     });
