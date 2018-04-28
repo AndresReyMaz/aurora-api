@@ -64,6 +64,7 @@
       "ignoredNodes": ["ConditionalExpression"]
     }],
     "linebreak-style":              ["error", "unix"],
+    "max-len":                      ["error", { "code": 80 }],
     "no-dupe-keys":                 ["error"],
     "no-duplicate-case":            ["error"],
     "no-extra-semi":                ["warn"],
