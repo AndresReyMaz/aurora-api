@@ -1,17 +1,36 @@
-# test-project
+# aurora-api
 
 a [Sails v1](https://sailsjs.com) application
 
+### Requirements:
 
-### Links
+- PostgreSQL, with an empty database.
+- Node.js
+- NPM
 
-+ [Get started](https://sailsjs.com/get-started)
-+ [Sails framework documentation](https://sailsjs.com/documentation)
-+ [Version notes / upgrading](https://sailsjs.com/documentation/upgrading)
-+ [Deployment tips](https://sailsjs.com/documentation/concepts/deployment)
-+ [Community support options](https://sailsjs.com/support)
-+ [Professional / enterprise options](https://sailsjs.com/enterprise)
+### Setup
 
+Once cloned, please create the following files in config/ (changing the appropriate values):
+
+datastores.js:
+
+```javascript
+module.exports.datastores = {
+  default: {
+    adapter: require('sails-postgresql'),
+    url: 'postgres://{DBUSER}:{DBPASSWORD}@{DBIPADDRESS}:{DBPORT}/{DBNAME}'
+  },
+};
+```
+local.js (optional, needed to override default port of 1337):
+
+```javascript
+module.exports = {
+  port: 8081
+};
+```
+
+Run using `node app.js`.
 
 ### Version info
 
