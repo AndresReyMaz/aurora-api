@@ -28,6 +28,13 @@ module.exports = {
    * desired reservation in unix miliseconds)
    */
   create: async function(req, res) {
+    // Check that the body's variables are set
+    if (req.body.enduser === undefined || req.body.room === undefined
+        || req.body.startTime === undefined || req.body.endTime === undefined) {
+      res.status(400).send({ err: 'No hay variables en el body' });
+      return;
+    }
+
     // First: check that a user with the given id exists
     let enduser = await Endusers.findOne({ id: req.body.enduser });
     if (enduser === undefined) {
@@ -358,6 +365,10 @@ module.exports = {
     let time1 = await sails.helpers.getStartingTime();
     let booking = await Bookings.findOne({ id: req.params.id })
                                 .populate('timeslot');
+    if (booking === undefined) {
+      res.status(404).send({ err: 'No booking found' });
+      return;
+    }
     if (parseInt(booking.timeslot.time) === Date.parse(time1)) {
       res.status(400).send({
         err: 'Es demasiado tarde para eliminar esta reserva.'

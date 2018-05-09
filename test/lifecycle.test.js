@@ -6,6 +6,8 @@ before(function(done) {
   // Increase the Mocha timeout so that Sails has enough time to lift, even if you have a bunch of assets.
   this.timeout(5000);
 
+  
+
   sails.lift({
     // Your sails app's configuration files will be loaded automatically,
     // but you can also specify any other special overrides here for testing purposes.
@@ -20,6 +22,11 @@ before(function(done) {
 
     // here you can load fixtures, etc.
     // (for example, you might want to create some records in the database)
+    // CLEAR DATABASE ENTIRELY
+    Endusers.destroy({});
+    Bookings.destroy({});
+    Timeslots.destroy({});
+    Rooms.destroy({});
 
     return done();
   });
